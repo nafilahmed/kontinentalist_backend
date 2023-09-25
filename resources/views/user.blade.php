@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-4 col-12 mb-2">
-        <h3 class="content-header-title">Icons</h3>
+        <h3 class="content-header-title">Users</h3>
     </div>
     <div class="content-header-right col-md-8 col-12">
         <div class="breadcrumbs-top float-md-right">
@@ -11,7 +11,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a>
                     </li>
-                    <li class="breadcrumb-item active">Icons
+                    <li class="breadcrumb-item active">Users
                     </li>
                 </ol>
             </div>
@@ -19,18 +19,18 @@
     </div>
 </div>
 <div class="content-body">
-    <!-- Website List section start -->
+    <!-- User List section start -->
     <section id="webiste-list">
         <!-- Basic Tables start -->
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Websites</h4>
+                        <h4 class="card-title">Users</h4>
                         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <ul class="list-inline mb-0">
-                                <li><button class="btn btn-primary" id="add-btn" >Add New Website</button></li>
+                                <li><button class="btn btn-primary" id="add-btn" >Add New User</button></li>
                                 <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                                 <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
 
@@ -44,17 +44,17 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Name</th>
-                                            <th>Url</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($websites as $key => $value)
+                                        @foreach($users as $key => $value)
                                         <tr>
                                             <th scope="row">{{$value['id']}}</th>
                                             <td>{{$value['name']}}</td>
-                                            <td>{{$value['url']}}</td>
+                                            <td>{{$value['email']}}</td>
                                             <td><i data-id="{{$value['id']}}" class="edit-form la la-edit"></i> <i data-id="{{$value['id']}}" class="la la-trash"></i></td>
                                         </tr>
                                         @endforeach
@@ -87,14 +87,14 @@
                         <input type="text" class="form-control col-sm-10" id="name" placeholder="Enter name">
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="url">URL:</label>
-                        <input type="text" class="form-control col-sm-10" id="url" placeholder="Enter url">
+                        <label class="control-label col-sm-2" for="email">Email:</label>
+                        <input type="text" class="form-control col-sm-10" id="email" placeholder="Enter email">
                     </div>                    
                 </div>
             </div>
             <div class="alert" style="display: none;"></div>
             <div class="modal-footer">
-                <button class="btn btn-primary" post-action="" id="save-btn" >Save</button>
+                <button class="btn btn-primary" post-action="edit" id="save-btn" >Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -106,31 +106,33 @@
 
 @section('page-level-script')
 <script>
-    var id = 0;
-    $(document).on("click", '.add-btn', function (e) {
+    id = 0;
+    $(document).on("click", '#add-btn', function (e) {
+
         $('#name').val(' ');
-        $('#url').val(' ');
-        $('.modal-title').text('Add Website');
+        $('#email').val(' ');
+        $('.modal-title').text('Add User');
 
         $('#editModal').modal('show');
         $('#save-btn').attr('post-action','add');
     });
 
     $(document).on("click", '.edit-form', function (e) {
-        $('.modal-title').text('Update Website');
+        $('.modal-title').text('Update User');
         $('#save-btn').attr('post-action','add');
         $('#save-btn').attr('post-action','edit');
 
         $('#editModal').modal('show');
         
         id = $(this).attr('data-id');
+
         $.ajax({
             type: 'GET',
-            url: '/websites/'+id,
+            url: '/users/'+id,
             success: function (data) {
 
                 $('#name').val(data.data.name);
-                $('#url').val(data.data.url);
+                $('#email').val(data.data.email);
 
             }, error: function (data) {
 
@@ -145,16 +147,17 @@
 
             $.ajax({
                 type: 'PUT',
-                url: '/websites/'+id,
+                url: '/users/'+id,
                 data: {
                     name: $('#name').val(),
-                    url: $('#url').val()
+                    email: $('#email').val()
                 },
                 success: function (data) {
                     if(data.status_code == 200){
                         $(".alert").removeClass("alert-danger");
                         $(".alert").addClass("alert-success");
                         $(".alert").html(data.message);
+
                     }else{
                         $(".alert").removeClass("alert-success");
                         $(".alert").addClass("alert-danger");
@@ -169,15 +172,15 @@
                 }, error: function (data) {
 
                     $(".alert").html('some thing went worng');
-                }
+                }                
             });
 
         }else{
 
-            $.post("/websites", 
+            $.post("/users", 
             {
                 name: $('#name').val(),
-                url: $('#url').val()
+                email: $('#email').val()
             },
             function(data,status){
 
@@ -198,18 +201,18 @@
                 
                 $(".alert").show();
             });
-        }
 
-        setTimeout(function(){
-            location.reload(true);
-        }, 2000);
+            setTimeout(function(){
+                location.reload(true);
+            }, 2000);
+        }
         
     });
 
     $('#editModal').on('hidden.bs.modal', function () {
         $(".alert").hide();
-        $('#name').val('');
-        $('#url').val('');
+        $('#name').val(' ');
+        $('#email').val('');
         $(".alert").html('');
         $(".alert").removeClass("alert-danger");
         $(".alert").removeClass("alert-success");

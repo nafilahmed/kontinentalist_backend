@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WtbsiteController;
+use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +26,6 @@ Route::get('/demo', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('websites', WtbsiteController::class);
+Route::resource('/websites', WebsiteController::class);
+Route::resource('/users', UserController::class);
+    

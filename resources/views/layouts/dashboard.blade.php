@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -38,6 +39,8 @@
                 @yield('content')
             </div>
         </div>
+            
+
         <!-- ////////////////////////////////////////////////////////////////////////////-->
 
         @if (Request::path() != 'login' && Request::path() != 'register')
@@ -59,8 +62,17 @@
         <script src="{{asset('theme-assets/js/core/app-menu-lite.js')}}" type="text/javascript"></script>
         <script src="{{asset('theme-assets/js/core/app-lite.js')}}" type="text/javascript"></script>
         <!-- END CHAMELEON  JS-->
+        
         <!-- BEGIN PAGE LEVEL JS-->
 
+        <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        </script>
+        @yield('page-level-script')
         <!-- END PAGE LEVEL JS-->
     </body>
 </html>

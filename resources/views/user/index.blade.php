@@ -39,6 +39,12 @@
                     <div class="card-content collapse show">
                         <div class="card-body">
                             <div class="table-responsive">
+                            <div class="text-right">
+                                <a data-toggle="modal" data-target="#editModal" data-route="{{route('users.show', 0)}}"
+                                    class="edit-form btn btn-info btn-min-width mr-1 mb-1">
+                                    <span style="color: white;"> New Record </span>
+                                </a>
+                            </div>
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -49,24 +55,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($users as $key => $value)
                                         <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td><i class="la la-edit"></i> <i class="la la-trash"></i></td>
+                                            <th scope="row">{{$key + 1}}</th>
+                                            <td>{{$value->name}} sdfs</td>
+                                            <td>{{$value->email}}</td>
+                                            <td>
+                                                <a data-toggle="modal" data-target="#editModal" data-route="{{route('users.show',$value->id)}}" class="pull-left edit-form" >
+                                                    <i class="la la-edit"></i> 
+                                                </a>        
+                                                <i class="la la-trash"></i>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td><i class="la la-edit"></i> <i class="la la-trash"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td><i class="la la-edit"></i> <i class="la la-trash"></i></td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -78,4 +79,5 @@
         <!-- Basic Tables end -->
     </section>
 </div>
+
 @endsection

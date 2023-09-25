@@ -8,7 +8,7 @@
   </div>
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation"> 
-      <li class="@if (Request::path() == 'home') active @endif nav-item"><a href="/home"><i class="ft-pie-chart"></i><span class="menu-title" data-i18n="">Users</span></a>
+      <li class="@if (Request::path() == 'users') active @endif nav-item"><a href="/users"><i class="ft-pie-chart"></i><span class="menu-title" data-i18n="">Users</span></a>
       </li>
       <li class="@if (Request::path() == 'websites') active @endif nav-item"><a href="/websites"><i class="ft-droplet"></i><span class="menu-title" data-i18n="">WebSites</span></a>
     </ul>
