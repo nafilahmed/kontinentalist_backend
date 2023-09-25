@@ -18,14 +18,8 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-
-
-Route::get('/demo', function () {
-    return view('demo');
-});
-
 Auth::routes();
 
-Route::resource('/websites', WebsiteController::class);
-Route::resource('/users', UserController::class);
+Route::resource('/websites', WebsiteController::class)->middleware('admin-role');
+Route::resource('/users', UserController::class)->middleware('admin-role');
     
